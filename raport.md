@@ -3,8 +3,9 @@
 **Projekt:** SIGK - Projekt 3
 **Data:** 01.12.2025
 **Zespół:**
-[1. Kasperczak Jonatan]
-[2. Stusio Jan]
+
+1. Kasperczak Jonatan
+2. Stusio Jan
 
 ---
 
