@@ -1,0 +1,21 @@
+EPOCHS = 100
+WARMUP_EPOCHS = 10
+L1_LAMBDA = 450.0 
+
+
+=== RAPORT KOŃCOWY ===
+Eksperyment: NeuralRender_2025-12-10_20-54
+Data: 2025-12-10 21:05
+----------------------
+METRYKI JAKOŚCI (zbiór testowy, N=600):
+
+1. FLIP       : 0.031091
+
+2. LPIPS      : 0.121413
+
+3. SSIM       : 0.876694
+
+4. Hausdorff  : 10.6040 px
+
+Wizualizacja zapisana w:
+/content/drive/MyDrive/studia/SIGK/PROJ_3/wyniki_NeuralRender_2025-12-10_20-54/wizualizacja_koncowa.png

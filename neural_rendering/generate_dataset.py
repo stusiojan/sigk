@@ -53,7 +53,7 @@ class DataGenerator(PhongWindow):
         # --- 1. Losowanie parametrów (zgodnie z PDF str. 3-4) ---
         
         # Pozycja obiektu: [-20, 20]
-        obj_pos = [random.uniform(-20, 20) for _ in range(3)]
+        obj_pos = [random.uniform(-4, 4) for _ in range(3)]
         
         # Kolor rozproszenia: [0, 255] -> normalizujemy do [0.0, 1.0] dla OpenGL
         # Uwaga: Zapisujemy do CSV wartości 0-255 (zgodnie z PDF), ale do shadera idą floaty
@@ -72,7 +72,7 @@ class DataGenerator(PhongWindow):
         # --- 2. Aktualizacja macierzy i uniformów ---
         model_matrix = Matrix44.from_translation(obj_pos)
         proj = Matrix44.perspective_projection(45.0, self.aspect_ratio, 0.1, 1000.0)
-        lookat = Matrix44.look_at(camera_pos, obj_pos, (0.0, 1.0, 0.0))
+        lookat = Matrix44.look_at(camera_pos, 0.0, (0.0, 1.0, 0.0))
         mvp = proj * lookat * model_matrix
 
         self.model_view_projection.write(mvp.astype('f4').tobytes())
