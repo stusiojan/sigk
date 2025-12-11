@@ -1,12 +1,18 @@
-# Rendering Neuralny
+# Rendering Neuralny v2
 
 **Projekt:** SIGK - Projekt 3
-**Data:** 01.12.2025
+**Data:** 01.12.2025 (Update 11.12.2025)
 **Zespół:**
 [1. Kasperczak Jonatan]
 [2. Stusio Jan]
 
 ---
+## Zmiany: Architektura sieci, wnioski w sekcji 5.2
+Głowną zmianą jest zrezygnowanie z założenia, że kamera patrzy zawsze na środek obiektu. Wymaga to od sieci nauczenia się rozpoznawania położenia obiektu i generowania go w tym miejscu.
+Dodało to drugi problem, że sieć wolała generować czarne tło niezależnie od obiektu. Rozwiązaniem na to jest zwiększenie kary za wygenerowanie samego tła i zmuszenie sieci do próby generowania obiektu.
+
+Finalnie obiekt jest generowany na zbliżonej pozycji, natomiast sieć nie nauczyła się odwzorowywać poprawnie kształtu.
+
 
 ## 1. Wstęp i Cel Projektu
 
@@ -38,11 +44,14 @@ wejściu generatora.
 
 3. **Normalizacja:** Wszystkie parametry wejściowe (kolory, pozycje) zostały
 znormalizowane do zakresu zbliżonego do $[-1, 1]$ lub $[0, 1]$.
+
 Wersja main_v2.py:
 `obj_pos = obj_pos_raw / 4.0`
 `light_pos = light_pos_raw / 20.0`
 
-1. **Dynamiczne Ustawienie Kamery**: Zamiast utrzymywać stały kierunek patrzenia,
+Wyłaczone zostało:
+
+4. **Dynamiczne Ustawienie Kamery**: Zamiast utrzymywać stały kierunek patrzenia,
 kamera jest dynamicznie skierowana na obiekt
 `lookat = Matrix44.look_at(camera_pos, obj_pos, ...))`.
 To eliminuje problem z wychodzeniem obiektu poza widok kamery i zapewnia,
@@ -62,19 +71,17 @@ Zastosowano architekturę **cGAN (Conditional Generative Adversarial Network)**:
 parametrów (14 wymiarów) na przestrzeń przestrzenną (512×4×4), a następnie 
 za pomocą warstw `ConvTranspose2d` zwiększa rozdzielczość do $128\times128$.
 
-OPTYMALIZACJA (wersja v2.0): Przed pierwszą warstwą konwolucyjną dodawane 
+* **Dyskryminator:** Sieć splotowa, która otrzymuje na wejściu parę
+*(Obraz, Wektor Parametrów)* i ocenia spójność obrazu z zadanym oświetleniem.
+
+* **OPTYMALIZACJA** (wersja v2.0): Przed pierwszą warstwą konwolucyjną dodawane 
 są dwa kanały zawierające znormalizowane współrzędne pikseli (CoordConv), 
 podnosząc liczbę kanałów z 512 na 514. Umożliwia to sieci nauczenie się 
 zależności od położenia w obrazie, co istotnie poprawia precyzję geometryczną.
 
-* **Dyskryminator:** Sieć splotowa, która otrzymuje na wejściu parę
-*(Obraz, Wektor Parametrów)* i ocenia spójność obrazu z zadanym oświetleniem.
+* **CoordConv** to technika rozwiązująca problem translacyjnej niezmienności sieci splotowych. Sieci splotowe naturalne oparty są na operacjach translacyjnie niezmiennych, co oznacza że nie znają bezwzględnego położenia pikseli.
 
-CoordConv (Liu et al., 2018) to technika rozwiązująca problem translacyjnej 
-niezmienności sieci splotowych. Sieci splotowe naturalne oparty są na operacjach 
-translacyjnie niezmiennych, co oznacza że nie znają bezwzględnego położenia pikseli.
-
-**Problem:** W kontekście renderingu pozycja piksela wpływa na sposób odbicia światła:
+* **Problem:** W kontekście renderingu pozycja piksela wpływa na sposób odbicia światła:
   - Pixel w rogu obrazu → światło przychodzi z innego kąta
   - Pixel w centrum → inne warunkowanie
   
