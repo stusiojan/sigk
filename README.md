@@ -14,5 +14,5 @@
 ## Animation
 
 
-- [report](animation/raport.md)
+- [report](animation/report.md)
 - [colab notebook as an ipynb](animation/sigk_5.ipynb)
