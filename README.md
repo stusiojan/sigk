@@ -10,3 +10,9 @@
 
 - [report](vector_field/raport.md)
 - [colab notebook as an ipynb](vector_field/main.ipynb)
+
+## Animation
+
+
+- [report](animation/raport.md)
+- [colab notebook as an ipynb](animation/sigk_5.ipynb)
