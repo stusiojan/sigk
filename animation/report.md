@@ -50,5 +50,8 @@ Wyniki generacji zostały poddane ewaluacji ilościowej za pomocą trzech metryk
 
 ## 5. Wnioski
 Zaimplementowany system dyfuzyjny skutecznie generuje płynne animacje stickmana dla obu zadanych klas ruchu.
-Mimo, że stickman zachowuje kształt ludzika to animacje są konwulsyjne i nie wyglądają prawidłowo. Przy eksperymentach z innymi parametrami punkty nie tworzyły postaci, a raczej kłębek,
+Mimo, że stickman zachowuje kształt ludzika to animacje są nieidealne. W skoku model odtwarza ruch kończyn, ale nie radzi sobie z przesunięciami globalnymi
+(translacją środka masy). Chód ma ten sam problem, a dodatkowo jest konwulsyjny.
+
+Przy eksperymentach z innymi parametrami punkty nie tworzyły postaci, a raczej kłębek,
 chód przypominał trochę animację pająka, a skok nie skakał pomimo zastosowania sieci 1D-ResNet, ograniczeń geometrycznych i uwzględnieniu bone loss w funkcji straty.
